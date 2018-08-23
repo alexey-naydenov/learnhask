@@ -1,0 +1,48 @@
+name:                learnhask
+version:             0.1.0.0
+github:              "alexey-naydenov/learnhask"
+license:             BSD3
+author:              "Alexey Naydenov"
+maintainer:          "dev@alexeynaydenov.triacontahedron.com"
+copyright:           "2018 Alexey Naydenov"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/alexey-naydenov/learnhask#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+
+executables:
+  learnhask-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - learnhask
+
+tests:
+  learnhask-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - learnhask
