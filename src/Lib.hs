@@ -31,7 +31,8 @@ myconcat (x:xs) = x ++ myconcat xs
 merge :: Ord a => [a] -> [a] -> [a]
 merge [] ys = ys
 merge xs [] = xs
-merge xss@(x:xs) yss@(y:ys) = if x < y then x : merge xs yss else y : merge xss ys
+merge xss@(x:xs) yss@(y:ys) = if x < y
+  then x : merge xs yss else y : merge xss ys
 
 halve :: [a] -> ([a], [a])
 halve [] = ([], [])
@@ -44,4 +45,25 @@ msort [] = []
 msort [x] = [x]
 msort xs = merge (msort xs1) (msort xs2)
   where (xs1, xs2) = halve xs
+
+filtermap1 :: (a -> b) -> (a -> Bool) -> [a] -> [b]
+filtermap1 f p xs = [f x | x <- xs, p x]
+
+filtermap2 :: (a -> b) -> (a -> Bool) -> [a] -> [b]
+filtermap2 f p = map f . filter p 
+
+mymap :: (a -> b) -> [a] -> [b]
+mymap f = foldr ((:) . f) []
+
+myfilter :: (a -> Bool) -> [a] -> [a]
+myfilter p xs = foldr (\x -> if p x then ((:) x) else id) [] xs
+
+dec2int :: [Int] -> Int
+dec2int ds = foldl ((+) . (10*)) 0 ds
+
+altMap :: (a -> b) -> (a -> b) -> [a] -> [b]
+altMap _ _ [] = []
+altMap f _ [x] = [f x]
+altMap f g (x1:x2:xs) = f x1 : g x2 : altMap f g xs
+
 
