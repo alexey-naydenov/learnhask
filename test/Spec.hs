@@ -1,7 +1,2 @@
-import Test.Hspec
-import Lib
+{-# OPTIONS_GHC -F -pgmF hspec-discover #-}
 
-main :: IO ()
-main = hspec $ do
-  describe "simple tests" $ do
-    it "" $ shouldBe (sumSquares 2) 5
