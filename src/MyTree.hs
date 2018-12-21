@@ -20,3 +20,8 @@ inorder (Node left x right) = (inorder left) ++ [x] ++ (inorder right)
 postorder :: MyBinaryTree a -> [a]
 postorder Leaf = []
 postorder (Node left x right) = (postorder left) ++ (postorder right) ++ [x]
+
+foldrTree :: (a -> b -> b) -> b -> MyBinaryTree a -> b
+-- foldrTree f b t = foldr f b $ inorder t
+foldrTree _ b Leaf = b
+foldrTree f b (Node left x right) = foldrTree f (foldrTree f (f x b) left) right
