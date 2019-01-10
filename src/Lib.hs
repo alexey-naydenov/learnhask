@@ -1,5 +1,7 @@
 module Lib where
 
+import Util
+
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
 
@@ -65,5 +67,16 @@ altMap :: (a -> b) -> (a -> b) -> [a] -> [b]
 altMap _ _ [] = []
 altMap f _ [x] = [f x]
 altMap f g (x1:x2:xs) = f x1 : g x2 : altMap f g xs
+
+isSubseqOf :: (Eq a) => [a] -> [a] -> Bool
+isSubseqOf [] _ = True
+isSubseqOf _ [] = False
+isSubseqOf xss@(x:xs) (y:ys)
+  | x == y = isSubseqOf xs ys
+  | otherwise = isSubseqOf xss ys
+
+capitalizeWords :: String -> [(String, String)]
+capitalizeWords "" = []
+capitalizeWords w = [(w, capitalise w)]
 
 
