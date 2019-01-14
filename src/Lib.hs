@@ -1,6 +1,8 @@
 module Lib where
 
 import Util
+import Data.Char (toUpper, toLower)
+import Data.List (intercalate)
 
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
@@ -75,8 +77,43 @@ isSubseqOf xss@(x:xs) (y:ys)
   | x == y = isSubseqOf xs ys
   | otherwise = isSubseqOf xss ys
 
+
+accumulateCapitalized :: String -> [(String, String)] -> [(String, String)]
+accumulateCapitalized "" words = words
+accumulateCapitalized word words = (word, capitalise word) : words
+
 capitalizeWords :: String -> [(String, String)]
-capitalizeWords "" = []
-capitalizeWords w = [(w, capitalise w)]
+capitalizeWords text = foldr accumulateCapitalized [] words
+  where words = split ' ' text
 
+capitalizeWord :: String -> String
+capitalizeWord "" = ""
+capitalizeWord (c:cs)
+  | c == ' ' = ' ' : capitalizeWord cs
+  | otherwise = toUpper c : cs
 
+capitalizeParagraph :: String -> String
+capitalizeParagraph text = intercalate "." sentences
+  where sentences = map capitalizeWord $ split '.' text
+
+notThe :: String -> String
+notThe "the" = "a"
+notThe x = x
+
+replaceThe :: String -> String
+replaceThe text  = intercalate " " words
+  where words = map notThe $ split ' ' text
+
+isVowel :: Char -> Bool
+isVowel x
+  | c == 'a' = True
+  | c == 'e' = True
+  | c == 'i' = True
+  | c == 'o' = True
+  | c == 'y' = True
+  | c == 'u' = True
+  | otherwise = False
+  where c = toLower x
+
+countVowels :: String -> Int
+countVowels = length . filter isVowel
