@@ -138,3 +138,31 @@ rights' :: [Either a b] -> [b]
 rights' = foldr acc []
   where acc (Left _) xs = xs
         acc (Right x) xs = x:xs
+
+partitionEither' :: [Either a b] -> ([a], [b])
+partitionEither' xs = (lefts' xs, rights' xs)
+
+eitherMaybe' :: (b -> c) -> Either a b -> Maybe c
+eitherMaybe' _ (Left _) = Nothing
+eitherMaybe' f (Right x) = Just $ f x
+
+myIterate :: (a -> a) -> a -> [a]
+myIterate f x = x : myIterate f (f x)
+
+maybeIncrement :: Int -> Maybe (Int, Int)
+maybeIncrement x
+  | x < 10 = Just (x, x + 1)
+  | otherwise = Nothing
+
+myUnfoldr :: (b -> Maybe (a, b)) -> b -> [a]
+myUnfoldr f x =
+  case result of
+    Nothing -> []
+    Just (y, z) -> y : myUnfoldr f z
+  where result = f x
+
+betterIterate :: (a -> a) -> a -> [a]
+betterIterate f = myUnfoldr justF
+  where justF x = Just (x, f x)
+
+

@@ -17,3 +17,9 @@ spec = do
     it "inorder" $ (inorder testTree) `shouldBe` [1, 2, 3]
     it "postorder" $ (postorder testTree) `shouldBe` [1, 3, 2]
     it "foldr" $ (foldrTree (+) 0 testTree) `shouldBe` 6
+  describe "tree build" $ do
+    it "zero" $ treeBuild 0 `shouldBe` Leaf
+    it "one" $ treeBuild 1 `shouldBe` Node Leaf 0 Leaf
+    it "two" $ treeBuild 2
+      `shouldBe` Node (Node Leaf 1 Leaf) 0 (Node Leaf 1 Leaf)
+  

@@ -1,5 +1,6 @@
 module LibSpec (spec) where
 
+import Data.List
 import Test.Hspec
 import Lib
 
@@ -66,4 +67,24 @@ spec = do
     it "one right" $ rights' ([Right 1] :: [Either Char Int]) `shouldBe` [1]
     it "mix" $ rights' ([Left 'a', Right 1] :: [Either Char Int])
       `shouldBe` [1]
-  describe "" $ do
+  describe "partition either" $ do
+    it "empty" $ partitionEither' ([] :: [Either Char Int]) `shouldBe` ([], [])
+    it "left" $ partitionEither' ([Left 'a'] :: [Either Char Int])
+      `shouldBe` (['a'], [])
+    it "right" $ partitionEither' ([Right 1] :: [Either Char Int])
+      `shouldBe` ([], [1])
+  describe "either maybe" $ do
+    it "left" $ eitherMaybe' id ((Left 'a') :: (Either Char Int))
+      `shouldBe` Nothing
+    it "right" $ eitherMaybe' (+1) ((Right 1) :: (Either Char Int))
+      `shouldBe` Just 2
+  describe "unfold" $ do
+    it "iterate" $ (take 5 $ myIterate (+1) (1 :: Int))
+      `shouldBe` (take 5 $ iterate (+1) (1 :: Int))
+    it "unfold" $ (myUnfoldr maybeIncrement (0 :: Int))
+      `shouldBe` (unfoldr maybeIncrement (0 :: Int))
+    it "better iterate" $ (take 5 $ betterIterate (+1) (1 :: Int))
+      `shouldBe` (take 5 $ iterate (+1) (1 :: Int))
+
+
+     
