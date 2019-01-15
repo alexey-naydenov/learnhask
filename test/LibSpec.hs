@@ -38,3 +38,32 @@ spec = do
     it "empty" $ shouldBe (countVowels "") 0
     it "no vowels" $ shouldBe (countVowels "xcvb") 0
     it "some vowels" $ shouldBe (countVowels "test some a") 4
+  describe "extract maybe" $ do
+    it "empty" $ shouldBe (catMaybe ([] :: [Maybe Int])) []
+    it "nothing" $ shouldBe (catMaybe [Nothing :: Maybe Int]) []
+    it "one value" $ shouldBe (catMaybe [Just 1 :: Maybe Int]) [1]
+    it "two values" $ shouldBe (catMaybe ([Just 1, Just 2] :: [Maybe Int]))
+      [1, 2]
+    it "mixture" $ shouldBe (catMaybe ([Just 1, Nothing, Just 2] :: [Maybe Int]))
+      [1, 2]
+  describe "flip maybe" $ do
+    it "empty" $ shouldBe (flipMaybe ([]::[Maybe Int])) (Just [])
+    it "nothing" $ shouldBe (flipMaybe ([Nothing]::[Maybe Int])) Nothing
+    it "just one" $ shouldBe (flipMaybe ([Just 1]::[Maybe Int])) (Just [1])
+    it "a few just" $ shouldBe (flipMaybe ([Just 1, Just 2]::[Maybe Int]))
+      (Just [1, 2])
+    it "mixture" $ shouldBe (flipMaybe ([Just 1, Nothing]::[Maybe Int]))
+      Nothing
+  describe "get lefts" $ do
+    it "empty" $ lefts' ([] :: [Either Char Int]) `shouldBe` []
+    it "one left" $ lefts' ([Left 'a'] :: [Either Char Int]) `shouldBe` ['a']
+    it "one right" $ lefts' ([Right 1] :: [Either Char Int]) `shouldBe` []
+    it "mix" $ lefts' ([Left 'a', Right 1] :: [Either Char Int])
+      `shouldBe` ['a']
+  describe "get rights" $ do
+    it "empty" $ rights' ([] :: [Either Char Int]) `shouldBe` []
+    it "one left" $ rights' ([Left 'a'] :: [Either Char Int]) `shouldBe` []
+    it "one right" $ rights' ([Right 1] :: [Either Char Int]) `shouldBe` [1]
+    it "mix" $ rights' ([Left 'a', Right 1] :: [Either Char Int])
+      `shouldBe` [1]
+  describe "" $ do

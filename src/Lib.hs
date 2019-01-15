@@ -117,3 +117,24 @@ isVowel x
 
 countVowels :: String -> Int
 countVowels = length . filter isVowel
+
+catMaybe :: [Maybe a] -> [a]
+catMaybe = foldr updateAcc []
+  where updateAcc Nothing xs = xs
+        updateAcc (Just x) xs = x:xs
+
+flipMaybe :: [Maybe a] -> Maybe [a]
+flipMaybe = foldr updateAcc (Just [])
+  where updateAcc Nothing _ = Nothing
+        updateAcc _ Nothing = Nothing
+        updateAcc (Just x) (Just xs) = Just (x:xs)
+
+lefts' :: [Either a b] -> [a]
+lefts' = foldr acc []
+  where acc (Left x) xs = x:xs
+        acc (Right _) xs = xs
+
+rights' :: [Either a b] -> [b]
+rights' = foldr acc []
+  where acc (Left _) xs = xs
+        acc (Right x) xs = x:xs
